@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Encryption and Decryption</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>Text Encryption and Decryption</h1>
+    <label for="inputText">Enter Text:</label>
+    <textarea id="inputText" rows="4" cols="50"></textarea><br>
+    <label for="key">Enter Key:</label>
+    <input type="text" id="key" value="mySecretKey12345"><br>
+    <label for="iv">Enter IV:</label>
+    <input type="text" id="iv" value="11223344556677881122334455667788"><br>
+    <button onclick="encrypt()">Encrypt</button>
+    <button onclick="decrypt()">Decrypt</button><br>
+    <label for="outputText">Result:</label>
+    <textarea id="outputText" rows="4" cols="50" readonly></textarea>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script>
+        // Function to encrypt text using AES-256-CBC encryption algorithm
+        function encryptUsingAES(text, key, iv) {
+            const encrypted = CryptoJS.AES.encrypt(text, key, { iv: iv });
+            return encrypted.toString();
+        }
+        
+        // Function to decrypt text using AES-256-CBC encryption algorithm
+        function decryptUsingAES(encryptedText, key, iv) {
+            const decrypted = CryptoJS.AES.decrypt(encryptedText, key, { iv: iv });
+            return decrypted.toString(CryptoJS.enc.Utf8);
+        }
+        
+        // Function to encrypt text when 'Encrypt' button is clicked
+        function encrypt() {
+            const inputText = document.getElementById("inputText").value;
+            const key = document.getElementById("key").value;
+            const iv = document.getElementById("iv").value;
+            
+            const encryptedText = encryptUsingAES(inputText, key, iv);
+            document.getElementById("outputText").value = encryptedText;
+        }
+        
+        // Function to decrypt text when 'Decrypt' button is clicked
+        function decrypt() {
+            const inputText = document.getElementById("inputText").value;
+            const key = document.getElementById("key").value;
+            const iv = document.getElementById("iv").value;
+        
+            const decryptedText = decryptUsingAES(inputText, key, iv);
+            document.getElementById("outputText").value = decryptedText;
+        }
+    </script>
+</body>
+</html>
